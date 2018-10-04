@@ -6,6 +6,22 @@ using namespace std;
 #include "ArrayStack.h"
 #include "car.h"
 
-class garage : public ArrayStack<car> {
-	int MAX_STACK = 10;
+class garage {
+	ArrayStack<car>* lane1;
+	ArrayStack<car>* lane2;
+	ArrayStack<car>* street;
+
+
+
+
+
 };
+
+
+/*
+To-Do:
+-Search function on Array
+-
+
+
+*/

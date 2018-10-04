@@ -10,7 +10,7 @@
 
 #include "StackInterface.h"
 
-const int MAX_STACK = 5;
+const int MAX_STACK = 10;
 
 template<class ItemType>
 class ArrayStack : public StackInterface<ItemType>

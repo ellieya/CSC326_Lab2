@@ -53,7 +53,7 @@ We more or less have algorithm down for main.
 
 		if (lane1 > 0) {
 			//Is CARNAME == TOP?
-				//NO: Ok let's more TOP
+				//NO: Ok let's move TOP
 				//Is lane2 FULL?
 					//NO: OK lane2.top() = lane1.top().
 					//YES: OK street_flag = true. street.top() = lane1.top()
