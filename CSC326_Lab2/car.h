@@ -1,7 +1,5 @@
 #include <string>
 
-using namespace std;
-
 class car {
 	string license;
 	int move_count;
@@ -16,7 +14,11 @@ public:
 
 	void increase_move_count();
 
+	bool operator == (string);
 	bool operator == (car);
+
+	car operator = (car);
+	//WARNING: ONLY COMPARES LICENSE
 };
 
 car::car()
@@ -49,7 +51,17 @@ void car::increase_move_count() {
 
 
 
+bool car::operator == (string targetcar_license) {
+	return (this->license == targetcar_license);
+}
+
 bool car::operator == (car targetcar) {
-	return (targetcar.license == this->license &&
-		targetcar.move_count == this->move_count);
+	return (this->license == targetcar.license);
+}
+
+car car::operator = (car other) {
+	license = other.license;
+	move_count = other.move_count;
+
+	return *this;
 }

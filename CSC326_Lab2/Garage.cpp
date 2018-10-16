@@ -3,8 +3,6 @@
 ArrayStack<car> garage::search(car targetCar) {
 
 	//Search for car by license string.
-
-
 	if (lane1.search(targetCar)) {
 		return lane1;
 	}
@@ -76,7 +74,7 @@ void garage::move_top_car_to_next_avaliable_lane(ArrayStack<car> LANE_TO_MOVE_FR
 }
 void garage::return_from_street() {
 
-	while (!street.isEmpty) {
+	while (!street.isEmpty()) {
 		move_top_car_to_next_avaliable_lane(street);
 	}
 	street_flag = false;
@@ -96,21 +94,21 @@ bool garage::arrival(car targetCar) {
 }
 void garage::depart(car targetCar) {
 
-
-
-
 	//Function cannot properly execute if target car is not found.
 	try {
-		//Get lane of target car
+		//Get lane of target car using a dummy!targetCar with the same license as the targetCar
 		ArrayStack<car> LANE_TO_MOVE_FROM = search(targetCar);
 
 		//While the targetCar is not the top of the lane, continue to move cars to avaliable lanes.
-		while (!(targetCar == LANE_TO_MOVE_FROM.peek())) {
+		while (!(LANE_TO_MOVE_FROM.peek() == targetCar)) {
 			move_top_car_to_next_avaliable_lane(LANE_TO_MOVE_FROM);
 		}
 
+		//Get the true target car when the car is at the top of the stack
+		car true_target_car = LANE_TO_MOVE_FROM.peek();
+
 		//When targetCar is the top car of the lane, cout message containing move count
-		cout << "Car " << targetCar.get_license() << ", which has moved " << targetCar.get_move_count() << " time(s) has departed." << endl;
+		cout << "Car " << targetCar.get_license() << ", which has moved " << true_target_car.get_move_count() << " time(s) has departed." << endl;
 
 		//Pop the targetCar
 		LANE_TO_MOVE_FROM.pop();

@@ -5,6 +5,8 @@ To-do:
 
 
 #include <iostream>
+#include <fstream>
+#include <assert.h>
 
 using namespace std;
 
@@ -22,7 +24,6 @@ class garage {
 	ArrayStack<car> search(car CAR_ID);
 	//Searches for car license.
 	//POST: On succesful search, return lane. Otherwise, throws error.
-
 	
 	/* DONE */
 	ArrayStack<car> get_next_available_lane(ArrayStack<car> EXCLUDED_LANE);

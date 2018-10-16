@@ -35,7 +35,7 @@ bool ArrayStack<ItemType>::search(ItemType target) const
 	bool found_flag = false;
 
 	for (int i = 0; i < top; i++) {
-		if (items[i] == target)
+		if (target == items[i])
 			found_flag = true;
 	}
 

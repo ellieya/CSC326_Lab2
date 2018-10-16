@@ -29,5 +29,5 @@ public:
 	 ItemType peek() const;	
 }; // end ArrayStack
 
-#include "ArrayStack.cpp"
+
 #endif

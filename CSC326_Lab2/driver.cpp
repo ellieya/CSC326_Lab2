@@ -1,6 +1,4 @@
 #include "Garage.h"
-#include <fstream>
-
 
 int main() {
 
@@ -18,27 +16,26 @@ int main() {
 	//Go through file until end
 
 	while (!input_file.eof()) {
-		//temp_code = A
-		//car temp = new car BLAHBLAH <- how are we going to do this?
 
 		input_file >> temp_code >> temp_license;
-
 
 		switch (temp_code) {
 		case 'A':
 			temp_car = new car(temp_license);
 			main_garage.arrival(*temp_car);
+
+			cout << temp_license << "has arrived." << endl;
 			
+			//Data is now stored in an ArrayStack, so temp_car no longer needed.
 			delete temp_car;
 			temp_car = nullptr;
 			break;
 		case 'D':
-			main_garage.depart(temp_license);
+			temp_car = new car(temp_license);
+			main_garage.depart(*temp_car);
 			break;
 		}
 	}
-
-
 
 	input_file.close();
 

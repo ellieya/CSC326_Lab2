@@ -118,7 +118,6 @@
     <ClInclude Include="ArrayStack.h" />
     <ClInclude Include="car.h" />
     <ClInclude Include="Garage.h" />
-    <ClInclude Include="StackInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayStack.cpp" />
