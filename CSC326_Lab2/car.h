@@ -10,6 +10,7 @@ public:
 	string get_license();
 	void increase_move_count();
 	int get_move_count();
+	bool operator == (car);
 };
 
 
@@ -23,4 +24,9 @@ void car::increase_move_count() {
 
 int car::get_move_count() {
 	return move_count;
+}
+
+bool car::operator == (car targetcar) {
+	return (targetcar.license == this->license &&
+		targetcar.move_count == this->move_count);
 }
