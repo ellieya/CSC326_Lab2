@@ -19,6 +19,15 @@ bool ArrayStack<ItemType>::isEmpty() const
 	return top < 0;	
 }  // end isEmpty
 
+
+
+//Custom function added to ArrayStack.h
+template<class ItemType>
+bool ArrayStack<ItemType>::isFull() const
+{
+	return top == MAX_STACK;
+}
+
 template<class ItemType>
 bool ArrayStack<ItemType>::push(const ItemType& newEntry)
 {
