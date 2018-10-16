@@ -28,6 +28,21 @@ bool ArrayStack<ItemType>::isFull() const
 	return top == MAX_STACK;
 }
 
+//Custom function added to ArrayStack.h
+template<class ItemType>
+bool ArrayStack<ItemType>::search(ItemType target) const
+{
+	bool found_flag = false;
+
+	for (int i = 0; i < top; i++) {
+		if (items[i] == target)
+			found_flag = true;
+	}
+
+	return found_flag;
+}
+
+
 template<class ItemType>
 bool ArrayStack<ItemType>::push(const ItemType& newEntry)
 {

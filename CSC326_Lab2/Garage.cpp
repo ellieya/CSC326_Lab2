@@ -1,6 +1,10 @@
 #include "Garage.h"
 
 ArrayStack<car> garage::search(car targetCar) {
+
+	//Search for car by license string.
+
+
 	if (lane1.search(targetCar)) {
 		return lane1;
 	}
@@ -70,10 +74,13 @@ void garage::move_top_car_to_next_avaliable_lane(ArrayStack<car> LANE_TO_MOVE_FR
 	//Now that the car is present in the LANE_TO_MOVE_TO, we can pop this car from LANE_TO_MOVE_FROM
 	LANE_TO_MOVE_FROM.pop();
 }
-bool return_from_street() {
+void garage::return_from_street() {
 
+	while (!street.isEmpty) {
+		move_top_car_to_next_avaliable_lane(street);
+	}
+	street_flag = false;
 }
-
 
 bool garage::arrival(car targetCar) {
 	try {
@@ -89,23 +96,31 @@ bool garage::arrival(car targetCar) {
 }
 void garage::depart(car targetCar) {
 
-	//Get lane of target car
+
+
+
+	//Function cannot properly execute if target car is not found.
 	try {
+		//Get lane of target car
 		ArrayStack<car> LANE_TO_MOVE_FROM = search(targetCar);
+
+		//While the targetCar is not the top of the lane, continue to move cars to avaliable lanes.
+		while (!(targetCar == LANE_TO_MOVE_FROM.peek())) {
+			move_top_car_to_next_avaliable_lane(LANE_TO_MOVE_FROM);
+		}
+
+		//When targetCar is the top car of the lane, cout message containing move count
+		cout << "Car " << targetCar.get_license() << ", which has moved " << targetCar.get_move_count() << " time(s) has departed." << endl;
+
+		//Pop the targetCar
+		LANE_TO_MOVE_FROM.pop();
+
+		//Put cars in street back into lanes if cars were ever moved to the street.
+		if (street_flag) {
+			return_from_street();
+		}
 	}
 	catch (string error) {
 		cout << error << endl;
 	}
-
-	//While the targetCar is not the top of the lane, continue to move cars to avaliable lanes.
-	while (!(targetCar == LANE_TO_MOVE_FROM.peek())) {
-		move_top_car_to_next_avaliable_lane(LANE_TO_MOVE_FROM);
-	}
-
-	//When targetCar is the top car of the lane, cout message containing move count
-	cout << "Car " << targetCar.get_license() << ", which has moved " << targetCar.get_move_count() << " time(s) has departed." << endl;
-
-	//Pop the targetCar
-	LANE_TO_MOVE_FROM.pop();
-
 }

@@ -23,6 +23,7 @@ public:
 	 ArrayStack();             // Default constructor
 	 bool isEmpty() const;
 	 bool isFull() const; //Custom function added to ArrayStack.h
+	 bool search(ItemType) const; //Custom function added to ArrayStack.h
 	 bool push(const ItemType& newEntry);
 	 bool pop();
 	 ItemType peek() const;	

@@ -1,0 +1,4 @@
+FIRST1 should depart with 0.
+2NDLAN should depart with 0.
+SECOND should depart with 2.
+

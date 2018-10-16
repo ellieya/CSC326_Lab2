@@ -1,5 +1,10 @@
+/*
+To-do:
+-Ok think about how the we're going to stick the cars from file
+*/
+
+
 #include <iostream>
-#include <fstream>
 
 using namespace std;
 
@@ -13,6 +18,7 @@ class garage {
 
 	bool street_flag = false;
 
+	/* DONE */
 	ArrayStack<car> search(car CAR_ID);
 	//Searches for car license.
 	//POST: On succesful search, return lane. Otherwise, throws error.
@@ -26,16 +32,19 @@ class garage {
 	void move_top_car_to_next_avaliable_lane(ArrayStack<car> LANE_TO_MOVE_FROM);
 	//POST: Moves car at the top of the lane to either a free lane or the street, then increments the car's move_count by 1.
 
-
-	bool return_from_street();
+	/* DONE */
+	void return_from_street();
+	//Used by depart to clean out the streets if any cars were moved to the street.
+	//PRE: street_flag has to be true
 	//POST: Goes through every single car in street and uses arrival() to place in next avaliable lane.
 	//After the operation is completed, street_flag becomes false again.
 
 public:
+	/* DONE */
 	bool arrival(car INCOMINGCAR);
 	//Place incoming car into the next avaliable lane. Precedence: lane1 > lane2
 
-	/* NEEDS SEARCH FUNCTION DONE */
+	/* DONE */
 	void depart(car targetCar);
 
 	
