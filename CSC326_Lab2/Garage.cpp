@@ -1,70 +1,36 @@
 #include "Garage.h"
 
-ArrayStack<car> garage::search(car targetCar) {
+ void garage::garage_search(car targetCar, ArrayStack<car> * target_holder) {
 
 	//Search for car by license string.
 	if (lane1.search(targetCar)) {
-		return lane1;
+		target_holder = lane1;
 	}
 	else if (lane2.search(targetCar)) {
-		return lane2;
+		target_holder = lane2;
 	}
 	else {
-		throw "CAR NOT FOUND!";
+		throw 0;
 	}
 }
 
-ArrayStack<car> garage::get_next_available_lane(ArrayStack<car> EXCLUDED_LANE) {
+ArrayStack<car>* garage::get_next_available_lane(ArrayStack<car> EXCLUDED_LANE) {
 
-	//If lane1 is the excluded lane, then check lane2 and street.
-	//Street will never be full, so there is no need to create exception for it.
-	if (EXCLUDED_LANE.peek() == lane1.peek()) {
-		if (lane2.isFull()) {
-			street_flag = true;
-			return street;
-		}
-		else {
-			return lane2;
-		}
+	if (!lane1.isFull()) {
+		return &lane1;
+	} else if (!lane2.isFull()) {
+		return &lane2;
 	}
-
-	//If lane2 is the excluded lane, then check lane1 and street
-	//Street will never be full, so there is no need to create exception for it.
-	else if (EXCLUDED_LANE.peek() == lane2.peek()) {
-		if (lane1.isFull()) {
-			street_flag = true;
-			return street;
-		}
-		else {
-			return lane1;
-		}
-	}
-
-	//Else, it would be street; check lane1 and lane2.
-	//If both are full, cout error.
 	else {
-		//If lane1 is not full, return lane1.
-		if (!lane1.isFull()) {
-			return lane1;
-		}
-
-		//Otherwise, if lane2 is not full, return lane2.
-		else if (!lane2.isFull())
-		{
-			return lane2;
-		}
-
-		//In all other cases, throw error.
-		else {
-			throw "Both lanes are full. We cannot accept anymore customers, sorry!";
-		}
+		street_flag = true;
+		return &street;
 	}
 
 }
 void garage::move_top_car_to_next_avaliable_lane(ArrayStack<car> LANE_TO_MOVE_FROM) {
 		
 	//LANE_TO_MOVE_TO.push(CAR_TO_MOVE)
-	get_next_available_lane(LANE_TO_MOVE_FROM).push(LANE_TO_MOVE_FROM.peek());
+	get_next_available_lane(LANE_TO_MOVE_FROM)->push(LANE_TO_MOVE_FROM.peek());
 		
 	//Increase the CAR_TO_MOVE's move counter
 	LANE_TO_MOVE_FROM.peek().increase_move_count();
@@ -82,8 +48,8 @@ void garage::return_from_street() {
 
 bool garage::arrival(car targetCar) {
 	try {
-		ArrayStack<car> targetLane = get_next_available_lane(street);
-		targetLane.push(targetCar);
+		ArrayStack<car> * targetLane = get_next_available_lane(street);
+		targetLane->push(targetCar);
 
 		return true;
 	}
@@ -92,33 +58,32 @@ bool garage::arrival(car targetCar) {
 		return false;
 	}
 }
+
 void garage::depart(car targetCar) {
 
 	//Function cannot properly execute if target car is not found.
 	try {
 		//Get lane of target car using a dummy!targetCar with the same license as the targetCar
-		ArrayStack<car> LANE_TO_MOVE_FROM = search(targetCar);
+		ArrayStack<car> * LANE_TO_MOVE_FROM = new ArrayStack<car>;
+		garage_search(targetCar, LANE_TO_MOVE_FROM);
 
 		//While the targetCar is not the top of the lane, continue to move cars to avaliable lanes.
-		while (!(LANE_TO_MOVE_FROM.peek() == targetCar)) {
-			move_top_car_to_next_avaliable_lane(LANE_TO_MOVE_FROM);
+		while (!(LANE_TO_MOVE_FROM->peek() == targetCar)) {
+			move_top_car_to_next_avaliable_lane(*LANE_TO_MOVE_FROM);
 		}
 
-		//Get the true target car when the car is at the top of the stack
-		car true_target_car = LANE_TO_MOVE_FROM.peek();
-
 		//When targetCar is the top car of the lane, cout message containing move count
-		cout << "Car " << targetCar.get_license() << ", which has moved " << true_target_car.get_move_count() << " time(s) has departed." << endl;
+		cout << "Car " << targetCar.get_license() << ", which has moved " << LANE_TO_MOVE_FROM->peek().get_move_count() << " time(s) has departed." << endl;
 
 		//Pop the targetCar
-		LANE_TO_MOVE_FROM.pop();
+		LANE_TO_MOVE_FROM->pop();
 
 		//Put cars in street back into lanes if cars were ever moved to the street.
 		if (street_flag) {
 			return_from_street();
 		}
 	}
-	catch (string error) {
+	catch (int error) {
 		cout << error << endl;
 	}
 }

@@ -21,13 +21,15 @@ class garage {
 	bool street_flag = false;
 
 	/* DONE */
-	ArrayStack<car> search(car CAR_ID);
+	void garage_search(car CAR_ID, ArrayStack<car>*);
 	//Searches for car license.
 	//POST: On succesful search, return lane. Otherwise, throws error.
 	
 	/* DONE */
-	ArrayStack<car> get_next_available_lane(ArrayStack<car> EXCLUDED_LANE);
+	ArrayStack<car> * get_next_available_lane(ArrayStack<car> EXCLUDED_LANE);
 	//POST: Returns the next lane with avaliable space based on the lane that you do not want your target car going into.
+
+
 
 	/* DONE */
 	void move_top_car_to_next_avaliable_lane(ArrayStack<car> LANE_TO_MOVE_FROM);

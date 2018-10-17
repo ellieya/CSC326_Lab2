@@ -3,12 +3,12 @@
 int main() {
 
 	garage main_garage;
-	ifstream input_file;
 
 	char temp_code; //Code to trigger switch
 	string temp_license;
 	car *temp_car = nullptr;
 
+	ifstream input_file;
 	input_file.open("file_input.txt");
 
 	assert(!(input_file.fail()));
@@ -25,7 +25,7 @@ int main() {
 			main_garage.arrival(*temp_car);
 
 			cout << temp_license << "has arrived." << endl;
-			
+
 			//Data is now stored in an ArrayStack, so temp_car no longer needed.
 			delete temp_car;
 			temp_car = nullptr;
