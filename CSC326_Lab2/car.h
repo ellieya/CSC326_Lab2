@@ -1,10 +1,9 @@
 #include <string>
 
 class car {
+public:
 	string license;
 	int move_count;
-
-public:
 
 	car();
 	car(string);

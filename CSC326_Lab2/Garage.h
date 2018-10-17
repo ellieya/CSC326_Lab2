@@ -21,7 +21,7 @@ class garage {
 	bool street_flag = false;
 
 	/* DONE */
-	void garage_search(car CAR_ID, ArrayStack<car>*);
+	int garage_search(car CAR_ID);
 	//Searches for car license.
 	//POST: On succesful search, return lane. Otherwise, throws error.
 	

@@ -6,7 +6,7 @@ int main() {
 
 	char temp_code; //Code to trigger switch
 	string temp_license;
-	car *temp_car = nullptr;
+	car temp_car;
 
 	ifstream input_file;
 	input_file.open("file_input.txt");
@@ -21,18 +21,25 @@ int main() {
 
 		switch (temp_code) {
 		case 'A':
-			temp_car = new car(temp_license);
-			main_garage.arrival(*temp_car);
+			
+			
+			main_garage.arrival(temp_car);
 
 			cout << temp_license << "has arrived." << endl;
 
 			//Data is now stored in an ArrayStack, so temp_car no longer needed.
-			delete temp_car;
-			temp_car = nullptr;
+			delete temp_car_pointer;
+			temp_car_pointer = nullptr;
 			break;
 		case 'D':
-			temp_car = new car(temp_license);
-			main_garage.depart(*temp_car);
+			//Must be stored in temp_car_pointer, then stored into temp_car or else C2102 occurs
+			temp_car_pointer = new car(temp_license);
+			temp_car = *temp_car_pointer;
+
+			main_garage.depart(temp_car);
+
+			delete temp_car_pointer;
+			temp_car_pointer = nullptr;
 			break;
 		}
 	}

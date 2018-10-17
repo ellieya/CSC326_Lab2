@@ -1,14 +1,16 @@
 #include "Garage.h"
 
- void garage::garage_search(car targetCar, ArrayStack<car> * target_holder) {
+ int garage::garage_search(car targetCar) {
 
 	//Search for car by license string.
 	if (lane1.search(targetCar)) {
-		target_holder = lane1;
+		return 1;
 	}
 	else if (lane2.search(targetCar)) {
-		target_holder = lane2;
+		return 2;
 	}
+
+	//Maybe don't need this
 	else {
 		throw 0;
 	}
@@ -64,8 +66,7 @@ void garage::depart(car targetCar) {
 	//Function cannot properly execute if target car is not found.
 	try {
 		//Get lane of target car using a dummy!targetCar with the same license as the targetCar
-		ArrayStack<car> * LANE_TO_MOVE_FROM = new ArrayStack<car>;
-		garage_search(targetCar, LANE_TO_MOVE_FROM);
+		int temp = garage_search(targetCar);
 
 		//While the targetCar is not the top of the lane, continue to move cars to avaliable lanes.
 		while (!(LANE_TO_MOVE_FROM->peek() == targetCar)) {
