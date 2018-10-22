@@ -12,15 +12,14 @@ public:
 	int get_move_count() const;
 
 	void increase_move_count();
+	void set_car(string);
 
 	bool operator == (car);
-
 	car operator = (car);
 	//WARNING: ONLY COMPARES LICENSE
 };
-
 car::car()
-	:move_count(0)
+	:license("DUMMYN0"), move_count(0)
 {
 	//Intentionally blank
 }
@@ -38,8 +37,11 @@ int car::get_move_count() const {
 void car::increase_move_count() {
 	move_count++;
 }
+void car::set_car(string new_license) {
+	license = new_license;
+}
 bool car::operator == (car targetcar) {
-	return (this->license == targetcar.license);
+	return (license == targetcar.license);
 }
 car car::operator = (car other) {
 	license = other.license;

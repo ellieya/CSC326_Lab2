@@ -25,7 +25,7 @@ bool ArrayStack<ItemType>::isEmpty() const
 template<class ItemType>
 bool ArrayStack<ItemType>::isFull() const
 {
-	return top == MAX_STACK;
+	return top == MAX_STACK - 1;
 }
 
 //Custom function added to ArrayStack.h
@@ -34,6 +34,8 @@ bool ArrayStack<ItemType>::search(ItemType target) const
 {
 	bool found_flag = false;
 
+
+	//This could be optimized; runs even when found_flag is true
 	for (int i = 0; i < top; i++) {
 		if (target == items[i])
 			found_flag = true;

@@ -14,32 +14,22 @@ int main() {
 	assert(!(input_file.fail()));
 
 	//Go through file until end
-
 	while (!input_file.eof()) {
 
+		//Take values from file
 		input_file >> temp_code >> temp_license;
+
+		//Set temporary car's license to equal userInput
+		temp_car.set_car(temp_license);
 
 		switch (temp_code) {
 		case 'A':
-			
-			
 			main_garage.arrival(temp_car);
-
-			cout << temp_license << "has arrived." << endl;
-
-			//Data is now stored in an ArrayStack, so temp_car no longer needed.
-			delete temp_car_pointer;
-			temp_car_pointer = nullptr;
+			cout << temp_license << " has arrived." << endl;
 			break;
 		case 'D':
-			//Must be stored in temp_car_pointer, then stored into temp_car or else C2102 occurs
-			temp_car_pointer = new car(temp_license);
-			temp_car = *temp_car_pointer;
-
+			cout << "\n" << temp_license << " wishes to depart." << endl;
 			main_garage.depart(temp_car);
-
-			delete temp_car_pointer;
-			temp_car_pointer = nullptr;
 			break;
 		}
 	}
