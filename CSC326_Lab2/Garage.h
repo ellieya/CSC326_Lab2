@@ -1,41 +1,14 @@
 /*
-To-do:
--Check on some more exceptions, e.g.:
-	lane 1 has some + lane 2 has some
-	lane 1 = full + lane 2 = full what happens to street? - STREET & STREET CLEAN CONFIRMED WORKING
--Debug the print function
--Clean-up on documentation + clearer documentation
--I think that get_next_avaliable_lane can be condensed <- THIS IS ONLY IF YOU HAVE A MAD AMOUNT OF TIME!!!
+Jiali Chen
+Lab 2 - The Parking Garage
+In this lab, we have a garage class containing 3 array-based stacks named 'lane1', 'lane2', and 'street'.
+We must handle a list of arriving and departing cars from file input while considering the mechanics of a stack.
 */
 
-
-/*
-
-void print_lane(ArrayStack<car> LANE_TO_PRINT) {
-	if (LANE_TO_PRINT.isEmpty())
-		cout << "NO CARS IN THIS LANE!!!" << endl;
-	else {
-		ArrayStack<car> temp_stack = LANE_TO_PRINT;
-		car temp_array[10];
-
-		int i;
-		while (!temp_stack.isEmpty()) {
-			temp_array[i] = temp_stack.peek();
-			temp_stack.pop();
-			i++;
-		}
-
-		for (i = sizeof(temp_array); i > sizeof(temp_array); i--) {
-			cout << sizeof(temp_array) - i << temp_array[i].get_license() << temp_array[i].get_move_count << endl;
-		}
-		
-	}
-}
-
-*/
 
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <assert.h>
 
@@ -51,41 +24,41 @@ class garage {
 
 	bool street_flag = false;
 
-	/* DONE */
 	ArrayStack<car> * garage_search(car CAR_ID);
 	//Searches for car license.
-	//POST: On succesful search, return lane address. Otherwise, throws error.
-	
-	/* DONE */
+		//POST: On succesful search, return lane address. Otherwise, throws error.
+
 	ArrayStack<car> * get_next_available_lane(ArrayStack<car> EXCLUDED_LANE, char operation);
-	//POST: Returns the next lane with avaliable space based on the lane that you do not want your target car going into.
+		//POST: Returns the next lane with avaliable space based on the lane that you do not want your target car going into.
 
-
-
-	/* DONE */
 	void move_top_car_to_next_avaliable_lane(ArrayStack<car> & LANE_TO_MOVE_FROM);
-	//POST: Moves car at the top of the lane to either a free lane or the street, then increments the car's move_count by 1.
+		//POST: Moves car at the top of the lane to either a free lane or the street, then increments the car's move_count by 1.
 
-	/* DONE */
 	void return_from_street();
-	//Used by depart to clean out the streets if any cars were moved to the street.
-	//PRE: street_flag has to be true
-	//POST: Goes through every single car in street and uses arrival() to place in next avaliable lane.
-	//After the operation is completed, street_flag becomes false again.
+	//Used by depart() to clean out the streets if any cars were moved to the street.
+		//PRE: street_flag has to be true
+		//POST: Goes through every single car in street and uses arrival() to place in next avaliable lane.
+			//After the operation is completed, street_flag becomes false again.
 
 public:
-	/* DONE */
 	bool arrival(car INCOMINGCAR);
 	//Place incoming car into the next avaliable lane. Precedence: lane1 > lane2
 
-	/* DONE */
 	void depart(car targetCar);
+	//Removes an existing car from its lane by moving other cars out of the way until it can leave.
+	
+	void print_lane(ArrayStack<car>, string);
+	//Prints list of selected lane
+
+	void print_all_lanes();
+	//Prints list of all lanes
+
 
 	
 
 };
 
-
+/* PRIVATE METHODS */
 
 ArrayStack<car>* garage::garage_search(car targetCar) {
 
@@ -102,7 +75,6 @@ ArrayStack<car>* garage::garage_search(car targetCar) {
 		throw 0;
 	}
 }
-
 ArrayStack<car>* garage::get_next_available_lane(ArrayStack<car> EXCLUDED_LANE, char operation) {
 
 	switch (operation) {
@@ -114,7 +86,7 @@ ArrayStack<car>* garage::get_next_available_lane(ArrayStack<car> EXCLUDED_LANE, 
 			return &lane2;
 		}
 		else {
-			throw "No more cars can be accepted";
+			throw 0;
 		}
 	case 'D':
 		if (!lane1.isFull() && ( ( !(lane1.isEmpty())) && !(lane1.peek() == EXCLUDED_LANE.peek()) ) || (lane1.isEmpty()) ) {
@@ -128,7 +100,7 @@ ArrayStack<car>* garage::get_next_available_lane(ArrayStack<car> EXCLUDED_LANE, 
 			return &street;
 		}
 	default:
-		throw "UNKNOWN ERROR";
+		throw 99;
 	}
 	
 
@@ -156,6 +128,9 @@ void garage::return_from_street() {
 	street_flag = false;
 }
 
+
+/* PUBLIC METHODS */
+
 bool garage::arrival(car targetCar) {
 	try {
 		ArrayStack<car> * targetLane = get_next_available_lane(street,'A');
@@ -163,12 +138,19 @@ bool garage::arrival(car targetCar) {
 
 		return true;
 	}
-	catch (string error) {
-		cout << error << endl;
+	catch (int error) {
+		switch (error) {
+		case 0:
+			cout << "GARAGE IS FULL! Cannot accept any more cars." << endl;
+			break;
+		default:
+			cout << "UNKNOWN ERROR." << endl;
+			break;
+		}
+
 		return false;
 	}
 }
-
 void garage::depart(car targetCar) {
 
 	//Function cannot properly execute if target car is not found.
@@ -195,4 +177,43 @@ void garage::depart(car targetCar) {
 	catch (int error) {
 		cout << error << endl;
 	}
+}
+void garage::print_lane(ArrayStack<car> LANE_TO_PRINT, string LANE_ID) {
+
+
+	cout << "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n"
+		<< LANE_ID
+		<< "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n" << endl;
+
+	if (LANE_TO_PRINT.isEmpty()) {
+		cout << "NO CARS IN THIS LANE!!!\n" << endl;
+	}
+	else {
+		ArrayStack<car> temp_stack = LANE_TO_PRINT;
+		car temp_array[10];
+
+		int i = 0;
+		int array_size = 0;
+		int true_index = 0;
+		
+		while (!temp_stack.isEmpty()) {
+			temp_array[i] = temp_stack.peek();
+			temp_stack.pop();
+			i++;
+			array_size++;
+		}
+
+		cout << setw(15) << "Slot NO." << setw(15) << "LICENSE" << setw(15) << "MOVE COUNT" << endl;
+
+		//Logic here is flawed
+		for (i = array_size; i > 0; i--, true_index++) {
+			cout << setw(15) << array_size - true_index << setw(15) << temp_array[array_size-i].get_license() << setw(15) << temp_array[array_size-i].get_move_count() << endl;
+		}
+
+	}
+}
+void garage::print_all_lanes() {
+	print_lane(lane1, "LANE 1");
+	print_lane(lane2, "LANE 2");
+	print_lane(street, "STREET");
 }

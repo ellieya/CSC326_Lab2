@@ -24,12 +24,22 @@ int main() {
 
 		switch (temp_code) {
 		case 'A':
-			main_garage.arrival(temp_car);
-			cout << temp_license << " has arrived." << endl;
+			if (main_garage.arrival(temp_car)) {
+				cout << temp_license << " has arrived." << endl;
+				main_garage.print_all_lanes();
+				system("pause");
+				system("cls");
+			}
+			else {
+				cout << temp_license << " has failed to arrive." << endl;
+			}
 			break;
 		case 'D':
 			cout << "\n" << temp_license << " wishes to depart." << endl;
 			main_garage.depart(temp_car);
+			main_garage.print_all_lanes();
+			system("pause");
+			system("cls");
 			break;
 		}
 	}

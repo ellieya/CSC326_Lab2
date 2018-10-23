@@ -18,6 +18,7 @@ public:
 	car operator = (car);
 	//WARNING: ONLY COMPARES LICENSE
 };
+
 car::car()
 	:license("DUMMYN0"), move_count(0)
 {
@@ -28,6 +29,7 @@ car::car(string input_license)
 {
 	//Intentionally blank
 }
+
 string car::get_license() const {
 	return license;
 }
